@@ -184,8 +184,10 @@ func jsonToDot(images *[]Image) string {
 			buffer.WriteString(fmt.Sprintf(" \"%s\" -> \"%s\"\n", truncate(image.ParentId), truncate(image.Id)))
 		}
 		if image.RepoTags[0] != "<none>:<none>" {
-			buffer.WriteString(fmt.Sprintf(" \"%s\" [label=\"%s\\n%s\",shape=box,fillcolor=\"paleturquoise\",style=\"filled,rounded\"];\n", truncate(image.Id), truncate(image.Id), strings.Join(image.RepoTags, "\\n")))
-		}
+			buffer.WriteString(fmt.Sprintf(" \"%s\" [label=\"%s (%s)\\n%s\",shape=box,fillcolor=\"paleturquoise\",style=\"filled,rounded\"];\n", truncate(image.Id), truncate(image.Id), humanSize(image.VirtualSize), strings.Join(image.RepoTags, "\\n")))
+		} else {
+			buffer.WriteString(fmt.Sprintf(" \"%s\" [label=\"%s (%s)\"];\n", truncate(image.Id), truncate(image.Id), humanSize(image.VirtualSize)))
+    }
 	}
 
 	buffer.WriteString(" base [style=invisible]\n}\n")
